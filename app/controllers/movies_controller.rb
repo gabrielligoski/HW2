@@ -1,13 +1,13 @@
 # This file is app/controllers/movies_controller.rb
 class MoviesController < ApplicationController
   def index
-    sort = params[:sort_by]
-    ratings = params[:ratings]
-    if ratings == nil
-      ratings = {'G': '1', 'PG': '1', 'PG-13': '1', 'NC-17': '1', 'R': '1'}
+    session[:sort_by] = params[:sort_by]
+    session[:ratings] = params[:ratings]
+    if session[:ratings] == nil
+      session[:ratings] = {'G': '1', 'PG': '1', 'PG-13': '1', 'NC-17': '1', 'R': '1'}
     end
     # id = params[:id]
-    @movies = Movie.where(rating: ratings.keys).order(sort).all
+    @movies = Movie.where(rating: session[:ratings].keys).order(session[:sort_by]).all
   end
 
   def show
