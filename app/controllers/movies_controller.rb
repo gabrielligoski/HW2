@@ -2,14 +2,19 @@
 class MoviesController < ApplicationController
   def index
     sort = params[:sort_by]
+    ratings = params[:ratings]
+    if ratings == nil
+      ratings = {'G': '1', 'PG': '1', 'PG-13': '1', 'NC-17': '1', 'R': '1'}
+    end
     # id = params[:id]
-    @movies = Movie.order(sort).all
+    @movies = Movie.where(rating: ratings.keys).order(sort).all
   end
 
   def show
     id = params[:id]
     @movie = Movie.find(id)
   end
+
 
   def new
     @movie = Movie.new
